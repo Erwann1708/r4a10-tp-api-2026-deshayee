@@ -1,168 +1,389 @@
 /* Importation de la police Roboto */
-@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap);
 
-/* Définition des principales couleurs */
+/* =========================================================
+   VARIABLES - Thème "Modern Health Teal" (2026)
+========================================================= */
 :root {
-  --text-color: #fafafa; /* (Texte presque blanc) */
-  --background: #34495e; /* (Fond bleu foncé) */
-  --background-button: #bebebe;
-  --main-green: rgb(26, 188, 156);
-  --active-green: rgb(20, 156, 128);
-  --almost-black: #2d2d2d;
+  --bg-app: #f7f9fc;           /* Fond de page très clair, légèrement bleuté */
+  --bg-card: #ffffff;          /* Fond des cartes blanc pur */
+  --text-main: #2c3e50;        /* Texte principal sombre mais doux */
+  --text-muted: #7f8c8d;       /* Texte secondaire gris */
+  --teal-main: #1abc9c;        /* Teal vibrant pour l'action */
+  --teal-dark: #16a085;        /* Teal foncé pour le clic */
+  --teal-light: rgba(26, 188, 156, 0.1); /* Teal très clair pour les fonds */
+  --border-color: #e1e8ed;     /* Couleur des bordures subtiles */
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05); /* Ombre très douce et large */
+  --radius-lg: 16px;           /* Grands arrondis modernes */
+  --radius-md: 8px;            /* Arrondis moyens pour boutons/inputs */
 }
 
+/* =========================================================
+   STYLE GLOBAL
+========================================================= */
 * {
-  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--text-main);
 }
 
 body {
-  background-color: var(--background);
-  font: 14pt Roboto, Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  width: 90%;
+  background-color: var(--bg-app);
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  width: 95%;
+  max-width: 1400px;
   margin: 40px auto;
+  color: var(--text-main);
 }
 
-/* Paragraphes "Aucun résultat..." et "Aucune recherche..." */
-p.info-vide {
-  font-style: italic;
-}
-
-/* Partie En-tête */
-h1 {
+/* =========================================================
+   EN-TÊTE ET TEXTES
+========================================================= */
+header {
   text-align: center;
-  font-variant: small-caps;
-  font-size: 2.5em;
-  color: var(--main-green);
+  margin-bottom: 50px;
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 3em;
+  color: var(--teal-main);
+  letter-spacing: -1px;
+  margin-bottom: 15px;
 }
 
 #explication {
-  font-size: 1.2em;
-}
-
-/* Conteneur principal */
-#conteneur {
-  display: flex;
-  flex: 1;
-  margin: 30px auto;
-}
-
-/* Section Recherche (avec résultats) */
-#section-recherche {
-  margin-top: 0;
-  flex: 1 1 auto;
-}
-
-#bloc-recherche {
-  display: flex;
+  font-size: 1.1em;
+  color: var(--text-muted);
+  max-width: 700px;
   margin: 0 auto;
-  min-width: 450px;
-  flex-direction: row;
 }
 
-#bloc-recherche > input[type="text"],
-#bloc-recherche > button {
-  display: block;
-  font-size: 1.2em;
+#explication a {
+  color: var(--teal-main);
+  text-decoration: none;
+  font-weight: 500;
 }
 
-#bloc-recherche > input[type="text"] {
-  color: var(--almost-black);
-  flex: 1;
-  padding: 0.7em;
-  border: 0.3em solid var(--main-green);
-}
-
-#bloc-recherche > button {
-  padding: 0.8em 0.8em;
-  /* Bordure invisible pour que le hover ne bouge pas le bouton */
-  border: 1px solid var(--main-green);
-
-  /* Par défaut, les boutons sont en gris
-	 (S'ils sont "clicables", ils passent en vert) */
-  background-color: var(--background-button);
-}
-
-/* Apparences des boutons clicables */
-#bloc-recherche > button.btn_clicable {
-  background-color: var(--main-green);
-}
-
-#bloc-recherche > button:focus {
-  /* Pour éviter un affichage disgracieux
-		quand le bouton reste en focus */
-  outline: 0 !important;
-}
-
-#bloc-recherche > button.btn_clicable:hover {
-  cursor: pointer;
-  border: 1px solid white;
-}
-
-#bloc-recherche > button.btn_clicable:active {
-  background-color: var(--active-green);
-}
-
-/* GIF de chargement (caché par défaut) */
-#bloc-gif-attente {
-  display: none;
-  margin: 40px;
-  text-align: center;
-}
-
-#bloc-resultats p.res::before {
-  /* Affichage d'une flèche devant chaque résultat
-		(Cf. https://unicode-table.com/fr/21E8/ ) */
-  content: "\21E8\00A0";
-}
-
-/* Section de la barre de séparation */
-#section-separation {
-  border-left: 2px dashed var(--main-green);
-  margin: 0 20px;
-}
-
-/* Section des recherches favorites */
-#section-favoris {
-  flex: 0 0 300px;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-#section-favoris h2 {
-  margin-top: 0;
-}
-
-#section-favoris p {
-  margin-bottom: 8px;
-}
-
-#liste-favoris li {
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-#liste-favoris li span {
+#explication a:hover {
   text-decoration: underline;
 }
 
-#liste-favoris li span:hover {
-  color: var(--main-green);
+/* Supprime la barre HR à l'ancienne */
+hr {
+  display: none;
 }
 
-/* Media-query pour gérer l'affichage sur petit écran */
-@media (max-width: 900px) {
+p.info-vide {
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* =========================================================
+   DISPOSITION PRINCIPALE (MODERNE FLEX/GRID)
+========================================================= */
+#conteneur {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+#section-recherche {
+  flex: 1;
+}
+
+/* =========================================================
+   BARRE DE RECHERCHE (STRECHED AND SLEEK)
+========================================================= */
+#bloc-recherche {
+  display: flex;
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 50px; /* Barre de recherche "pilule" */
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 30px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+#bloc-recherche:focus-within {
+  border-color: var(--teal-main);
+  box-shadow: 0 10px 30px rgba(26, 188, 156, 0.15);
+}
+
+#champ-recherche {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.1em;
+  padding: 10px 25px;
+  outline: none;
+  color: var(--text-main);
+}
+
+#champ-recherche::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+#bloc-recherche > button {
+  border: none;
+  background: transparent;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+#btn-lancer-recherche.btn_clicable {
+  background-color: var(--teal-main);
+}
+
+#btn-lancer-recherche.btn_clicable:hover {
+  background-color: var(--teal-dark);
+}
+
+#btn-lancer-recherche.btn_clicable:active {
+  transform: scale(0.95);
+}
+
+#btn-lancer-recherche.btn_clicable img {
+  filter: brightness(0) invert(1); /* Force l'icône de loupe en blanc */
+}
+
+/* Style du bouton favoris (étoile) */
+#btn-favoris {
+  background-color: transparent;
+  margin-left: 10px;
+}
+
+#btn-favoris:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+#btn-favoris.btn_clicable:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+/* =========================================================
+   RÉSULTATS DE RECHERCHE ET CARTES PRODUITS (LATEST STYLE)
+========================================================= */
+#bloc-gif-attente {
+  display: none;
+  text-align: center;
+  margin: 50px auto;
+}
+
+#bloc-gif-attente img {
+  width: 60px;
+  height: 60px;
+}
+
+/* LA NOUVELLE CARTE MODERNE */
+.produit-card {
+  background-color: var(--bg-card);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 25px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-color: var(--teal-main);
+}
+
+.produit-card h3 {
+  color: var(--text-main) !important;
+  font-weight: 500;
+  font-size: 1.5em;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.produit-card .marque {
+  color: var(--text-muted) !important;
+  font-weight: 400;
+  font-size: 0.95em;
+  margin-top: -10px;
+}
+
+.produit-card .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  margin: 10px 0;
+}
+
+.produit-card img {
+  max-height: 200px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Grille des macros nutriments (4 COLONNES ÉPURÉES) */
+.produit-card ul.macros-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
+  gap: 20px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 25px;
+}
+
+.produit-card ul.macros-grid li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--bg-app);
+  padding: 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+/* Style des icônes SVG intégrées */
+.produit-card ul.macros-grid li svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+/* Couleur Teal pour les icônes vectorielles */
+.produit-card ul.macros-grid li svg path,
+.produit-card ul.macros-grid li svg circle {
+  stroke: var(--teal-main);
+  stroke-width: 1.5;
+}
+
+.produit-card ul.macros-grid li .value {
+  color: var(--text-main) !important;
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-bottom: 2px;
+}
+
+.produit-card ul.macros-grid li strong {
+  color: var(--text-muted) !important;
+  font-weight: 400;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================================================
+   BARRE DE SÉPARATION & FAVORIS (CLEAN LISTS)
+========================================================= */
+#section-separation {
+  border-left: 1px solid var(--border-color);
+  margin: 0;
+}
+
+#section-favoris {
+  flex: 0 0 320px;
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
+  align-self: flex-start; /* Ne s'étire pas en hauteur */
+}
+
+#section-favoris h2 {
+  font-weight: 500;
+  font-size: 1.4em;
+  color: var(--text-main);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--teal-light);
+  padding-bottom: 10px;
+}
+
+#liste-favoris {
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+#liste-favoris li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: var(--bg-app);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+#liste-favoris li:hover {
+  border-color: var(--teal-main);
+  background-color: var(--teal-light);
+}
+
+#liste-favoris li span {
+  font-weight: 500;
+  color: var(--text-main);
+  text-decoration: none; /* Plus de soulignement à l'ancienne */
+}
+
+#liste-favoris li img {
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+#liste-favoris li img:hover {
+  opacity: 1;
+}
+
+/* =========================================================
+   RESPONSIVE (Petits écrans fluides)
+========================================================= */
+@media (max-width: 1100px) {
   #conteneur {
-    flex-direction: column-reverse;
+    flex-direction: column-reverse; /* Favoris en haut sur mobile */
   }
 
   #section-separation {
-    border-top: 2px dashed var(--main-green);
-    margin: 0 -10px 40px -10px;
+    display: none; /* Cache la ligne de séparation */
   }
 
   #section-favoris {
-    flex: 0;
+    flex: auto;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .produit-card ul.macros-grid {
+    grid-template-columns: 1fr 1fr; /* 2x2 sur très petit écran */
   }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
-    <title>Recherche d'offres d'emploi</title>
+    <title>Compteur de Calories</title>
     <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon-js.ico" />
     <link rel="stylesheet" href="styles.css" />
@@ -9,16 +9,14 @@
 
   <body>
     <header>
-      <h1>Recherche d'offres d'emploi</h1>
-
-      <p id="explication">
-        Cette page permet de rechercher des offres d'emploi via l'API publique
-        de <a href="https://www.indeed.fr/" target="_blank">indeed.fr</a>.<br />
-        Saisir le nom d'une ville, d'un poste, ... pour rechercher les postes
-        correspondants, et enregistrer vos recherches favorites pour les
-        retrouver facilement.
-      </p>
-    </header>
+      <h1>Compteur de Calories</h1>
+        <p id="explication">
+          Cette page permet de rechercher un produit alimentaire via l'API publique
+          d'<a href="https://fr.openfoodfacts.org/" target="_blank">Open Food Facts</a>.<br />
+          Saisissez le nom d'un aliment pour afficher ses apports nutritionnels et enregistrez 
+          vos aliments favoris pour les retrouver facilement.
+        </p>
+  </header>
     <hr />
 
     <main id="conteneur">
@@ -26,7 +24,7 @@
       <section id="section-recherche">
         <div id="bloc-recherche">
           <!-- Champ de recherche -->
-          <input type="text" placeholder="Que cherchez-vous ?" />
+          <input id="champ-recherche" type="text" placeholder="Quel aliment cherchez-vous ?" />
 
           <!-- Boutons -->
           <button
@@ -66,10 +64,6 @@
           />
         </div>
         <div id="bloc-resultats">
-          <p class="res">Résultat 1 ...</p>
-          <p class="res">Résultat 2 ...</p>
-          <p class="res">Résultat 3 ...</p>
-          <p class="info-vide">(Aucun résultat trouvé)</p>
         </div>
       </section>
 
@@ -114,5 +108,6 @@
         <p class="info-vide">(Aucune recherche favorite)</p>
       </section>
     </main>
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>
