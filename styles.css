@@ -387,3 +387,70 @@ p.info-vide {
     grid-template-columns: 1fr 1fr; /* 2x2 sur très petit écran */
   }
 }
+
+
+/* =========================================================
+   MENU DÉROULANT SUR MESURE (Fini le bleu Windows !)
+========================================================= */
+.custom-select {
+  position: relative;
+  font-family: inherit;
+  margin-right: 15px;
+  user-select: none; /* Empêche de surligner le texte par erreur */
+}
+
+/* Le "bouton" principal affiché */
+.select-selected {
+  background-color: var(--teal-light);
+  color: var(--teal-dark);
+  padding: 8px 32px 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95em;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2316a085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.select-selected:hover {
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.15); /* Halo Teal */
+}
+
+/* La liste déroulante (qui s'ouvre en dessous) */
+.select-items {
+  position: absolute;
+  background-color: #ffffff;
+  top: 115%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+/* Classe pour cacher la liste */
+.select-hide {
+  display: none;
+}
+
+/* Les options à l'intérieur de la liste */
+.select-items div {
+  color: var(--text-main);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.2s;
+}
+
+/* Le fameux survol (hover) qui remplace le bleu Windows par du Teal ! */
+.select-items div:hover {
+  background-color: var(--teal-light);
+  color: var(--teal-dark);
+  font-weight: 500;
+}

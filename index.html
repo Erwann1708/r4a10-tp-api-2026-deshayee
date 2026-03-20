@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
-    <title>Compteur de Calories</title>
+    <title>NutriScope</title>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon-js.ico" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
     <header>
-      <h1>Compteur de Calories</h1>
+      <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px;">
+        <img src="favicon.svg" alt="Logo NutriScope" style="width: 48px; height: 48px;" />
+        <h1 style="margin-bottom: 0;">NutriScope</h1>
+      </div>
+
         <p id="explication">
-          Cette page permet de rechercher un produit alimentaire via l'API publique
-          d'<a href="https://fr.openfoodfacts.org/" target="_blank">Open Food Facts</a>.<br />
-          Saisissez le nom d'un aliment pour afficher ses apports nutritionnels et enregistrez 
-          vos aliments favoris pour les retrouver facilement.
+          Cette page permet de rechercher un produit alimentaire via la base de données mondiale
+          d'<a href="https://world.openfoodfacts.org/" target="_blank">Open Food Facts</a>.<br /><br />
+          Saisissez le nom d'un aliment pour afficher ses apports nutritionnels.<br />
+          
+          <span style="font-size: 0.9em; opacity: 0.8; display: inline-block; margin-top: 8px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; vertical-align: text-bottom; margin-right: 4px;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            
+            <em>Note : La recherche sur les serveurs peut prendre quelques secondes. N'hésitez pas à enregistrer vos aliments en favoris 
+            
+            (<svg viewBox="0 0 24 24" fill="var(--teal-main)" stroke="var(--teal-main)" stroke-width="2" style="width: 14px; height: 14px; vertical-align: baseline;">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>) 
+            
+            pour les retrouver et les relancer instantanément !</em>
+          </span>
         </p>
-  </header>
+    </header>
     <hr />
 
     <main id="conteneur">
@@ -25,6 +43,15 @@
         <div id="bloc-recherche">
           <!-- Champ de recherche -->
           <input id="champ-recherche" type="text" placeholder="Quel aliment cherchez-vous ?" />
+
+          <div id="custom-select-limite" class="custom-select">
+            <div class="select-selected">5 max</div>
+            <div class="select-items select-hide">
+              <div data-val="5">5 max</div>
+              <div data-val="10">10 max</div>
+              <div data-val="20">20 max</div>
+            </div>
+          </div>
 
           <!-- Boutons -->
           <button

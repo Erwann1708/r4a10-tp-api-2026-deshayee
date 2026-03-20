@@ -15,10 +15,9 @@ export default class Controller {
         this.vue.majEtatEtoile(false, true);
     }
 
-    async rechercherProduit(nomRecherche) {
+    async rechercherProduit(nomRecherche, limite = 5) {
         if (!nomRecherche || nomRecherche.trim() === '') return;
 
-        // On mémorise ce qu'on est en train de chercher
         this.rechercheActuelle = nomRecherche.trim().toLowerCase();
         this.vue.afficherChargement(true);
 
@@ -26,15 +25,11 @@ export default class Controller {
             const produitsBruts = await this.api.chercherProduits(nomRecherche);
 
             if (produitsBruts.length > 0) {
-                // CORRECTION : On enlève le filtre capricieux sur les accents.
-                // On fait confiance à l'API et on prend juste les 5 premiers résultats.
                 const listeFiltree = produitsBruts
-                    .slice(0, 5)
+                    .slice(0, limite) // <--- MODIFICATION : On utilise la limite ici !
                     .map(donneeBrute => new Produit(donneeBrute));
 
                 this.vue.afficherProduits(listeFiltree);
-
-                // On allume l'étoile si ce mot est déjà dans nos favoris
                 this.vue.majEtatEtoile(this.favoris.includes(this.rechercheActuelle));
             } else {
                 this.vue.afficherMessage("(Aucun résultat trouvé)");
