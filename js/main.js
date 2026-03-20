@@ -36,3 +36,44 @@ champRecherche.addEventListener('keypress', (event) => {
         btnRecherche.click();
     }
 });
+
+
+// ==========================================
+// GESTION DES FAVORIS
+// ==========================================
+const btnFavoris = document.getElementById('btn-favoris');
+const listeFavoris = document.getElementById('liste-favoris');
+
+// 1. Clic sur l'étoile
+btnFavoris.addEventListener('click', () => {
+    appController.gererFavori();
+});
+
+// 2. Clic dans la liste des favoris
+listeFavoris.addEventListener('click', (event) => {
+    
+    // Cas A : L'utilisateur a cliqué sur la petite croix (ou le dessin de la croix)
+    const elementCroix = event.target.closest('.btn-croix');
+    if (elementCroix) {
+        const nom = elementCroix.getAttribute('data-nom');
+        appController.supprimerFavori(nom);
+        return; // On arrête l'action ici pour ne pas relancer la recherche
+    }
+
+    // Cas B : L'utilisateur a cliqué n'importe où sur la ligne du favori (le <li>)
+    const elementLi = event.target.closest('li');
+    if (elementLi) {
+        const span = elementLi.querySelector('.nom-favori');
+        if (span) {
+            const nom = span.innerText;
+            champRecherche.value = nom; // Met le mot dans la barre de recherche
+            
+            // On réactive visuellement le bouton loupe
+            btnRecherche.disabled = false;
+            btnRecherche.classList.add('btn_clicable');
+            
+            // On lance directement la recherche !
+            appController.rechercherProduit(nom); 
+        }
+    }
+});
