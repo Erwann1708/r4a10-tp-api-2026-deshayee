@@ -2,19 +2,28 @@ import Produit from '../models/Produit.js';
 import Api from '../models/Api.js';
 
 export default class Controller {
+
+    /**
+     * Le constructeur du controller reçoit une instance de la vue pour pouvoir lui demander de mettre à jour l'affichage.
+     */
     constructor(vue) {
         this.vue = vue;
         this.api = new Api(); 
         
-        // 1. On charge les favoris depuis la mémoire du navigateur au démarrage
+        //Charge les favoris depuis la mémoire du navigateur au démarrage
         this.favoris = JSON.parse(localStorage.getItem('mesFavoris')) || [];
         this.rechercheActuelle = ''; // Garde en mémoire le mot actuellement affiché
 
-        // 2. On dessine la liste des favoris dès le lancement
+        // liste les favoris au démarrage
         this.vue.afficherFavoris(this.favoris);
         this.vue.majEtatEtoile(false, true);
     }
 
+    /**
+     * Recherche des produits selon un nom et une limite.
+     * @param {*} nomRecherche est le mot à rechercherr dans les produits
+     * @param {*} limite la quantité maximale de produits à afficher (par défaut 5)
+     */
     async rechercherProduit(nomRecherche, limite = 5) {
         if (!nomRecherche || nomRecherche.trim() === '') return;
 
@@ -25,9 +34,8 @@ export default class Controller {
             const produitsBruts = await this.api.chercherProduits(nomRecherche);
 
             if (produitsBruts.length > 0) {
-                const listeFiltree = produitsBruts
-                    .slice(0, limite) // <--- MODIFICATION : On utilise la limite ici !
-                    .map(donneeBrute => new Produit(donneeBrute));
+                // On transforme les données brutes en instances de la classe Produit, et on limite le nombre d'affichages selon la limite donnée
+                const listeFiltree = produitsBruts.slice(0, limite).map(donneeBrute => new Produit(donneeBrute));
 
                 this.vue.afficherProduits(listeFiltree);
                 this.vue.majEtatEtoile(this.favoris.includes(this.rechercheActuelle));
@@ -45,24 +53,32 @@ export default class Controller {
     // --- FONCTIONS POUR LES FAVORIS ---
 
     /**
-     * Ajoute ou retire la recherche actuelle des favoris
+     * Gere l'ajout ou la suppression d'un favori selon son état actuel. Si le mot n'est pas un favori, on l'ajoute. 
+     * Sinon, on demande confirmation avant de le supprimer.
+     * @returns
      */
     gererFavori() {
         if (!this.rechercheActuelle) return;
 
         const index = this.favoris.indexOf(this.rechercheActuelle);
 
-        // Si ce n'est pas un favori, on l'ajoute. Sinon, on le supprime.
+        // Si ce n'est pas un favori, on l'ajoute.
         if (index === -1) {
             this.favoris.push(this.rechercheActuelle);
         } else {
-            this.favoris.splice(index, 1);
+            // Confirmation avant de supprimer le favori
+            const confirmation = confirm(`Voulez-vous vraiment supprimer "${this.rechercheActuelle}" de vos favoris ?`);
+            if (confirmation) {
+                this.favoris.splice(index, 1);
+            } else {
+                return;
+            }
         }
 
-        // On sauvegarde la nouvelle liste dans le navigateur
+        //Sauvegarde la nouvelle liste dans le navigateur
         localStorage.setItem('mesFavoris', JSON.stringify(this.favoris));
 
-        // On demande à la vue de redessiner l'étoile et la liste
+        //La vue affiche la nouvelle liste de favoris et met à jour l'état de l'étoile
         this.vue.afficherFavoris(this.favoris);
         this.vue.majEtatEtoile(this.favoris.includes(this.rechercheActuelle));
     }
@@ -71,13 +87,18 @@ export default class Controller {
      * Supprime un favori spécifique depuis la liste
      */
     supprimerFavori(nom) {
-        this.favoris = this.favoris.filter(fav => fav !== nom);
-        localStorage.setItem('mesFavoris', JSON.stringify(this.favoris));
-        this.vue.afficherFavoris(this.favoris);
+    
+        const confirmation = confirm(`Voulez-vous vraiment supprimer "${nom}" de vos favoris ?`);
+        
+        if (confirmation) {
+            this.favoris = this.favoris.filter(fav => fav !== nom);
+            localStorage.setItem('mesFavoris', JSON.stringify(this.favoris));
+            this.vue.afficherFavoris(this.favoris);
 
-        // Si on vient de supprimer le favori qu'on est en train de regarder, on vide l'étoile
-        if (this.rechercheActuelle === nom) {
-            this.vue.majEtatEtoile(false);
+            // Si on vient de supprimer le favori qu'on est en train de regarder, on vide l'étoile
+            if (this.rechercheActuelle === nom) {
+                this.vue.majEtatEtoile(false);
+            }
         }
     }
 }

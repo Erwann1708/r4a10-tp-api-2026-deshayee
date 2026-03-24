@@ -3,6 +3,10 @@
  * Gère uniquement l'affichage sur la page HTML.
  */
 export default class View {
+    
+    /**
+     * Le constructeur de la vue récupère les éléments HTML nécessaires pour afficher les résultats et le GIF de chargement.
+     */
     constructor() {
         // On récupère les éléments de la page HTML grâce à leurs IDs
         this.conteneurResultats = document.getElementById('bloc-resultats');
@@ -86,9 +90,8 @@ export default class View {
         this.conteneurResultats.innerHTML = `<p class="info-vide">${message}</p>`;
     }
 
-    // ==========================================
-    // GESTION DES FAVORIS ⭐
-    // ==========================================
+
+    // --- GESTION DES FAVORIS ---
 
     /**
      * Met à jour le bouton étoile (Allumé, Eteint, ou Désactivé)
@@ -99,14 +102,13 @@ export default class View {
 
         if (desactiver) {
             btnFavoris.classList.remove('btn_clicable');
-            // Etoile grise (désactivée, stroke: var(--text-muted))
+            // Etoile grise 
             btnFavoris.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" style="width: 24px; height: 24px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
             return;
         }
 
         btnFavoris.classList.add('btn_clicable');
         
-        // Etoile Teal (stroke/fill: var(--teal-main))
         if (estFavori) {
             btnFavoris.innerHTML = `<svg viewBox="0 0 24 24" fill="var(--teal-main)" stroke="var(--teal-main)" stroke-width="2" style="width: 24px; height: 24px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
         } else {
@@ -127,9 +129,9 @@ export default class View {
             pInfoVide.style.display = 'block'; // Affiche "(Aucune recherche)"
         } else {
             pInfoVide.style.display = 'none';
-            // On fabrique un <li> pour chaque mot enregistré
+            //Fabrique un <li> pour chaque mot enregistré
             favoris.forEach(fav => {
-                // On crée une croix en SVG inline (rouge)
+                //Crée une croix en SVG inline
                 const croixSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" class="btn-croix" data-nom="${fav}" style="width:18px; height:18px; cursor:pointer; margin-left:10px;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
 
                 liste.innerHTML += `

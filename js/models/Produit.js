@@ -8,7 +8,7 @@ export default class Produit {
     
     /**
      * Prend en paramètre bloc de données brut renvoyé par l'api qui correspond au JSON d'un produit
-     * @param {*} apiData 
+     * @param {*} apiData bloc de données brut d'un produit renvoyé par l'API OpenFoodFacts
      */
     constructor(apiData) {
         //On recupère le nom du produit (en français en priorité si cela est possible)
@@ -21,8 +21,8 @@ export default class Produit {
         // On extrait les nutriments pour 100g (gestion des cas où la donnée n'existe pas)
         const nutriments = apiData.nutriments || {};
         this.calories = nutriments['energy-kcal_100g'] || 0; //Calories pour 100g
-        this.proteins = nutriments.proteins_100g || 0;      //Protéines
-        this.glucides = nutriments.carbohydrates_100g || 0;    //Glucides
-        this.lipides = nutriments.fat_100g || 0;   //Lipides
+        this.proteins = nutriments.proteins_100g || 0;      //Protéines pour 100g
+        this.glucides = nutriments.carbohydrates_100g || 0;    //Glucides pour 100g
+        this.lipides = nutriments.fat_100g || 0;   //Lipides pour 100g
     }
 }
