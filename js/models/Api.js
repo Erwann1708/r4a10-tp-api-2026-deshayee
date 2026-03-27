@@ -18,7 +18,9 @@ export default class Api {
         try {
             const urlCible = this.urlBase + encodeURIComponent(nom);
             
-            //On utilise un proxy pour contourner les problèmes de CORS, car l'API OpenFoodFacts ne permet pas les requêtes directes depuis le navigateur.
+            //On utilise un proxy pour contourner les problèmes de CORS (Cross-origin resource sharing)
+            //Le cors est une securité du navigateur qui empêche les requêtes vers des domaines différents de celui de l'application,
+            //car l'API OpenFoodFacts ne permet pas les requêtes directes depuis le navigateur.
             const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(urlCible);
 
             // On effectue la requête fetch vers le proxy, qui redirigera vers l'API OpenFoodFacts
