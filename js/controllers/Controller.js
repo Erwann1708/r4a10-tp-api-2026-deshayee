@@ -13,6 +13,7 @@ export default class Controller {
         //Charge les favoris depuis la mémoire du navigateur au démarrage
         this.favoris = JSON.parse(localStorage.getItem('mesFavoris')) || [];
         this.rechercheActuelle = ''; // Garde en mémoire le mot actuellement affiché
+        this.estEnChargement = false; // Empêche de spammer le bouton
 
         // liste les favoris au démarrage
         this.vue.afficherFavoris(this.favoris);
@@ -26,8 +27,10 @@ export default class Controller {
      */
     async rechercherProduit(nomRecherche, limite = 5) {
         if (!nomRecherche || nomRecherche.trim() === '') return;
+        if (this.estEnChargement) return; // Ignore la demande si une recherche tourne déjà
 
         this.rechercheActuelle = nomRecherche.trim().toLowerCase();
+        this.estEnChargement = true;
         this.vue.afficherChargement(true);
 
         try {
@@ -46,6 +49,7 @@ export default class Controller {
         } catch (erreur) {
             this.vue.afficherMessage("Erreur de connexion au serveur.");
         } finally {
+            this.estEnChargement = false; // On débloque la recherche une fois terminée
             this.vue.afficherChargement(false);
         }
     }

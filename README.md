@@ -24,6 +24,8 @@ Ce projet a été réalisé dans le cadre du **TP-API (R4.A.10 - Compléments We
 * **JavaScript (ES6+)** 
 * **API :** Open Food Facts
 
+> **⚠️ Avertissement concernant l'API :** L'API publique d'Open Food Facts peut parfois subir des surcharges ou des micro-coupures entraînant des "Erreurs de connexion au serveur". L'application tente de s'y reconnecter automatiquement, mais si le problème persiste, veuillez patienter quelques instants avant de chercher à nouveau.
+
 ---
 
 ## 🚀 Installation en local

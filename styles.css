@@ -88,6 +88,23 @@ p.info-vide {
   margin-top: 20px;
 }
 
+/* Style pour le bandeau d'avertissement API */
+.api-warning {
+  max-width: 700px;
+  margin: 25px auto 0 auto;
+  padding: 15px 20px;
+  background-color: rgba(243, 156, 18, 0.1); /* Orange très clair */
+  border: 1px solid rgba(243, 156, 18, 0.3);
+  border-radius: var(--radius-md);
+  color: #d35400; /* Orange foncé */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.9em;
+  text-align: left;
+}
+
+
 /* =========================================================
    DISPOSITION PRINCIPALE (MODERNE FLEX/GRID)
 ========================================================= */

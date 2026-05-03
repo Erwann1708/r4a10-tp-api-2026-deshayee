@@ -6,7 +6,8 @@ export default class Api {
      * ici on limite le nombre de résultats à 20, et  o, spécifie les champs que nous voulons récupérer pour chaque produit.
      */
     constructor() {
-        this.urlBase = "https://world.openfoodfacts.org/cgi/search.pl?search_simple=1&action=process&json=1&page_size=20&fields=product_name_fr,product_name,brands,image_front_url,nutriments&search_terms=";
+        // Ajout de `sort_by=unique_scans_n` pour trier les résultats par popularité et améliorer la pertinence.
+        this.urlBase = "https://world.openfoodfacts.org/cgi/search.pl?search_simple=1&action=process&json=1&page_size=20&sort_by=unique_scans_n&fields=product_name_fr,product_name,brands,image_front_url,nutriments&search_terms=";
     }
 
     /**
@@ -14,29 +15,29 @@ export default class Api {
      * @param {*} nom nom du produit à rechercher
      * @returns 
      */
-    async chercherProduits(nom) {
-        try {
-            const urlCible = this.urlBase + encodeURIComponent(nom);
-            
-            //On utilise un proxy pour contourner les problèmes de CORS (Cross-origin resource sharing)
-            //Le cors est une securité du navigateur qui empêche les requêtes vers des domaines différents de celui de l'application,
-            //car l'API OpenFoodFacts ne permet pas les requêtes directes depuis le navigateur.
-            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(urlCible);
+    async chercherProduits(nom, tentatives = 3) {
+        const urlCible = this.urlBase + encodeURIComponent(nom);
+        
+        // Boucle qui retente automatiquement l'appel à l'API en cas d'erreur
+        for (let i = 0; i < tentatives; i++) {
+            try {
+                const reponse = await fetch(urlCible);
+                
+                if (!reponse.ok) {
+                    throw new Error(`Serveur injoignable (Code: ${reponse.status})`);
+                }
 
-            // On effectue la requête fetch vers le proxy, qui redirigera vers l'API OpenFoodFacts
-            const reponse = await fetch(proxyUrl);
-            
-            if (!reponse.ok) {
-                throw new Error(`Serveur injoignable (Code: ${reponse.status})`);
+                const donnees = await reponse.json();
+                return donnees.products || [];
+                
+            } catch (erreur) {
+                if (i === tentatives - 1) {
+                    console.error("Erreur réseau API après plusieurs tentatives :", erreur);
+                    throw erreur; 
+                }
+                // On attend 500 millisecondes avant de retenter silencieusement
+                await new Promise(resolve => setTimeout(resolve, 500));
             }
-
-            // On parse la réponse JSON pour obtenir les données des produits
-            const donnees = await reponse.json();
-            return donnees.products || [];
-            
-        } catch (erreur) {
-            console.error("Erreur réseau API :", erreur);
-            throw erreur; 
         }
     }
 }
